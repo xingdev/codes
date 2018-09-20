@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script>
+      function Register() {
+        this.routes = []
+      }
+
+      Register.prototype.regist = function (obj, key, fn) {
+        this.routes.push({
+          obj: obj,
+          key: key,
+          fn: fn
+        })
+
+      }
+
+      Register.prototype.build = function () {
+        this.routes.forEach((route) => {
+          observer(route.obj, route.key, route.fn)
+        })
+      }
+
+      function observer(obj, key, callback) {
+        var old = obj[key]
+        Object.defineProperty(obj, key, {
+          enumerable: true,
+          configurable: true,
+          get: function () {
+            return old
+          },
+          set: function (now) {
+            if (now !== old) {
+              callback(old, now)
+            }
+            old = now
+          }
+        })
+      }
+
+      window.onload = function () {
+        var obj = {
+          name: 'd',
+          age: 20
+        }
+        const register = new Register()
+
+        register.regist(obj, 'name', function (old, now) {
+          var el = document.querySelector('#name')
+          el.innerHTML = now
+        })
+
+        register.regist(obj, 'age', function (old, now) {
+          var el = document.querySelector('#age')
+          el.innerHTML = now
+        })
+
+        register.build()
+        obj.name = 'fff'
+        obj.age = '80'
+
+        var nameInput = document.querySelector('#z-name')
+        var ageInput = document.querySelector('#z-age')
+
+        nameInput.addEventListener('change', function () {
+          obj.name = nameInput.value
+        })
+        ageInput.addEventListener('change', function () {
+          obj.age = ageInput.value
+        })
+      }
+    </script>
+</head>
+<body>
+<p>name:<span id="name"></span></p>
+<p>age:<span id="age"> </span></span></p>
+name:<input type="text" id="z-name">
+age:<input type="text" id="z-age">
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+    <script>
+      window.onload = function () {
+        var app = new Vue({
+          el: '#root',
+          data: {
+            message: 'llll'
+          }
+        })
+
+        Vue.component('button-counter', {
+          data: function () {
+            return {
+              count: 0
+            }
+          },
+          template: '<button v-on:click="count++">You clicked me {{ count }} times.</button>'
+        })
+
+        app.message = 'new message'
+      }
+      Vue.component('blog-post', {
+        props: ['title'],
+        template: '<h3>{{ title }}</h3>'
+      })
+    </script>
+</head>
+<body>
+<div id="root">
+    {{message}}
+    <button-counter></button-counter>
+    <blog-post title="My journey with Vue"></blog-post>
+</div>
+</body>
+</html>
