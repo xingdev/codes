@@ -1,16 +1,16 @@
-function a(next) {
+async function a(next) {
   console.log("a is called");
-  next();
+  await next();
   console.log("a1 is called");
 }
-function b(next) {
+async function b(next) {
   console.log("b is called");
-  next();
+  await next();
   console.log("b1 is called");
 }
-function c(next) {
+async function c(next) {
   console.log("c is called");
-  next();
+  await next();
   console.log("c1 is called");
 }
 
@@ -20,7 +20,7 @@ function compose(list) {
   function next(i) {
     const fn = list[i];
     if (fn) {
-      fn(next.bind(null, i + 1));
+      Promise.resolve(fn(next.bind(null, i + 1)));
     }
   }
 }
