@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/xingdev/codes#readme",
   "dependencies": {
+    "express": "^4.16.3",
     "koa": "^2.5.3",
     "redux": "^4.0.0"
   },

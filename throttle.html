@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Throttle</title>
+    <style>
+        #demo {
+            height: 100px;
+            background: gray;
+            color: #fff;
+            text-align: center;
+            padding-top: 50px;
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+
+        #demo-2 {
+            height: 100px;
+            background: gray;
+            color: #fff;
+            text-align: center;
+            padding-top: 50px;
+            font-size: 20px
+        }
+    </style>
+</head>
+
+<body>
+    <div id="demo">
+
+    </div>
+    <div id="demo-2">
+
+    </div>
+</body>
+
+<script>
+    function throttle(func, wait) {
+        var context, args;
+        var previous = 0;
+
+        return function () {
+            var now = +new Date();
+            context = this;
+            args = arguments;
+            if (now - previous > wait) {
+                func.apply(context, args);
+                previous = now;
+            }
+        }
+    }
+
+    function throttle2(func, wait) {
+        var timeout;
+        var previous = 0;
+
+        return function () {
+            context = this;
+            args = arguments;
+            if (!timeout) {
+                timeout = setTimeout(function () {
+                    timeout = null;
+                    func.apply(context, args)
+                }, wait)
+            }
+
+        }
+    }
+
+    // 第一版
+    function debounce(func, wait) {
+        var timeout;
+        return function () {
+            clearTimeout(timeout)
+            timeout = setTimeout(function () {
+                func.apply(context)
+            }, wait);
+        }
+    }
+
+
+    var el = document.querySelector('#demo')
+    var el2 = document.querySelector('#demo-2')
+    var idx = 0
+    var idx2 = 0
+
+
+    el.onmousemove = throttle(function () {
+        el.innerHTML = idx++
+    }, 1000);
+    el2.onmousemove = throttle2(function () {
+        el2.innerHTML = idx2++
+    }, 1000);
+</script>
+
+</html>
