@@ -25,4 +25,14 @@ function compose(list) {
   }
 }
 
+function compose() {
+  next(0);
+  function next(i) {
+    const fn = list[i];
+    if (fn) {
+      fn(next.bind(null, i + 1));
+    }
+  }
+}
+
 compose(fns);
